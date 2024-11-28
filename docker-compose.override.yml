@@ -8,7 +8,8 @@ services:
       - "8080:8080"
     depends_on:
       - eshop.mongodb
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   eshop.mongodb:
     image: mongo:7.0
     command: [ "mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017" ]

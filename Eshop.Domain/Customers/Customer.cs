@@ -1,18 +1,21 @@
-﻿using Eshop.Domain.SeedWork;
+﻿using Eshop.Domain.Customers.Events;
+using Eshop.Domain.SeedWork;
 
 namespace Eshop.Domain.Customers;
 
 public class Customer : Entity, IAggregateRoot
 {
-    public string Name { get; }    
-        
-    public static Customer Create(Guid id, string name)
-    {
-        return new(id, name);
-    }
-
-    private Customer(Guid id, string name) : base(Guid.NewGuid())
+    public string Name { get; private set; }    
+    
+    private Customer(string name) : base(Guid.NewGuid())
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
+
+        AddDomainEvent(new CustomerCreatedEvent(Id, name));
+    }
+    public static Customer Create(string name)
+    {
+        
+        return new Customer(name);
     }
 }

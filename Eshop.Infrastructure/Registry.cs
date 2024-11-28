@@ -1,6 +1,7 @@
 ﻿using Eshop.Application.Orders;
 using Eshop.Domain.Orders;
 using Eshop.Domain.SeedWork;
+using Eshop.Domain.Customers;
 using Eshop.Infrastructure.Database;
 using Eshop.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,8 @@ public static class Registry
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
         services.AddScoped<IEntityTracker, EntityTracker>();
-
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        
         var mongoDbSettings = configuration.GetSection("MongoDB").Get<MongoDbSettings>() ?? throw new InvalidOperationException("MongoDB settings are not configured properly.");
             
         if (string.IsNullOrEmpty(mongoDbSettings.ConnectionString))
